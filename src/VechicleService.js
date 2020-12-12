@@ -13,7 +13,7 @@ function Vehicle() {
 
   const getVehicle = () => {
     axios
-      .get("http://localhost:8080/api/vehicles")
+      .get("http://localhost:8080/vehicle")
       .then(response => {
         setVehicleState(response.data);
       })
@@ -21,7 +21,7 @@ function Vehicle() {
 
   const deleteVehicle = vin => {
     axios
-      .delete(`http://localhost:8080/api/delete/vehicle/${vin}`)
+      .delete(`http://localhost:8080/vehicle/${vin}`)
       .then(response => {
         getVehicle();
       })
@@ -34,20 +34,22 @@ function Vehicle() {
     let year = e.target[3].value;
     let mileage = e.target[4].value;
     let color = e.target[5].value;
+    let customerId = e.target[6].value;
     let data = {
       vin,
       brand,
       model,
       year,
       mileage,
-      color
+      color,
+      customerId
     };
     postVehicle(data);
   };
 
   const postVehicle = data => {
     axios
-      .post("http://localhost:8080/api/add/vehicle", data)
+      .post("http://localhost:8080/vehicle", data)
       .then(response => {
         getVehicle();
       })
@@ -60,20 +62,22 @@ function Vehicle() {
     let year = e.target[3].value;
     let mileage = e.target[4].value;
     let color = e.target[5].value;
+    let customerId = e.target[6].value;
     let data = {
       vin,
       brand,
       model,
       year,
       mileage,
-      color
+      color,
+      customerId
     };
     putVehicle(data, vin);
   };
 
   const putVehicle = (data, vin) => {
     axios
-      .put(`http://localhost:8080/api/update/vehicle/${vin}`, data)
+      .put(`http://localhost:8080/vehicle/${vin}`, data)
       .then(response => {
         getVehicle();
       })
@@ -127,6 +131,13 @@ function Vehicle() {
                 <input type="text" class="form-control" id="color" name="color" required />
               </div>
             </div>
+            <div className="form-group row">
+              <label class="col-sm-2 col-form-label"> Customer Id </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="customerId" name="customerId" required />
+              </div>
+            </div>
+
             <input type="submit" class="btn btn-primary btn-sm" value="Submit" />
           </form>
         </div>)}
@@ -175,6 +186,12 @@ function Vehicle() {
                 <input type="text" class="form-control" id="color" name="color" required />
               </div>
             </div>
+            <div className="form-group row">
+              <label class="col-sm-2 col-form-label"> Customer Id </label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="customerId" name="customerId" required />
+              </div>
+            </div>
             <input type="submit" class="btn btn-secondary btn-sm" value="Update" />
           </form>
         </div>)}
@@ -193,6 +210,7 @@ function Vehicle() {
               <th scope="col">Year</th>
               <th scope="col">Mileage</th>
               <th scope="col">Color</th>
+              <th scope="col">Customer ID</th>
               <th scope="col">Delete</th>
             </tr>
           </thead>
@@ -205,6 +223,7 @@ function Vehicle() {
                 <td>{d.year}</td>
                 <td>{d.mileage}</td>
                 <td>{d.color}</td>
+                <td>{d.customerId}</td>
                 <td>
                   <button onClick={() => deleteVehicle(d.vin)} className="btn btn-danger btn-sm">Delete</button>
                 </td>
@@ -218,6 +237,3 @@ function Vehicle() {
 }
 
 export default Vehicle;
-
-
-
